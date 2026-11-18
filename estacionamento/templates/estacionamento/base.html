@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Estacionamento{% endblock %}</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; background: #f5f6f8; color: #222; }
+    nav { background: #1f2937; padding: .75rem 1.5rem; display: flex; gap: 1.25rem; flex-wrap: wrap; }
+    nav a { color: #e5e7eb; text-decoration: none; }
+    nav a:hover { color: #fff; text-decoration: underline; }
+    main { max-width: 960px; margin: 1.5rem auto; padding: 0 1rem; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th, td { padding: .5rem .75rem; border-bottom: 1px solid #e5e7eb; text-align: left; }
+    th { background: #f0f1f4; }
+    .btn { display: inline-block; padding: .4rem .8rem; background: #2563eb; color: #fff; border: 0; border-radius: 4px; text-decoration: none; cursor: pointer; font-size: .9rem; }
+    .btn.danger { background: #dc2626; }
+    .msg { padding: .6rem .9rem; border-radius: 4px; margin-bottom: .75rem; }
+    .msg.success { background: #dcfce7; } .msg.error { background: #fee2e2; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .75rem; margin-top: 1rem; }
+    .vaga { padding: .75rem; border-radius: 6px; background: #fff; border-left: 6px solid #16a34a; }
+    .vaga.ocupada { border-color: #dc2626; } .vaga.bloqueada { border-color: #9ca3af; opacity: .7; }
+    .cards { display: flex; gap: 1rem; } .card { background: #fff; padding: .75rem 1.25rem; border-radius: 6px; }
+    .card b { font-size: 1.6rem; display: block; }
+    form p { margin: .6rem 0; } form label { display: block; font-weight: 600; margin-bottom: .2rem; }
+    input, select { padding: .4rem; min-width: 260px; } .errorlist { color: #b91c1c; margin: 0; padding-left: 1rem; }
+    .topo { display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="{% url 'estacionamento:dashboard' %}"><b>Painel</b></a>
+    <a href="{% url 'estacionamento:entrada' %}">Registrar entrada</a>
+    <a href="{% url 'estacionamento:movimentacoes' %}">Movimentações</a>
+    <a href="{% url 'estacionamento:clientes' %}">Clientes</a>
+    <a href="{% url 'estacionamento:veiculos' %}">Veículos</a>
+    <a href="{% url 'estacionamento:vagas' %}">Vagas</a>
+  </nav>
+  <main>
+    {% for message in messages %}
+      <div class="msg {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

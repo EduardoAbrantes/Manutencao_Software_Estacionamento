@@ -1,0 +1,15 @@
+{% extends "estacionamento/base.html" %}
+{% block content %}
+<div class="topo"><h1>Vagas</h1><a class="btn" href="{% url 'estacionamento:vaga_nova' %}">Nova vaga</a></div>
+<table>
+  <tr><th>Número</th><th>Tipo</th><th>Situação</th><th>Veículo atual</th><th></th></tr>
+  {% for v in object_list %}
+  <tr>
+    <td>{{ v.numero }}</td><td>{{ v.get_tipo_display }}</td>
+    <td>{% if not v.ativa %}Bloqueada{% elif v.ocupada %}Ocupada{% else %}Livre{% endif %}</td>
+    <td>{{ v.movimentacao_atual.veiculo.placa|default:"-" }}</td>
+    <td><a href="{% url 'estacionamento:vaga_editar' v.pk %}">Editar</a></td>
+  </tr>
+  {% empty %}<tr><td colspan="5">Nenhuma vaga cadastrada.</td></tr>{% endfor %}
+</table>
+{% endblock %}

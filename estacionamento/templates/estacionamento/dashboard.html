@@ -1,0 +1,35 @@
+{% extends "estacionamento/base.html" %}
+{% block content %}
+<div class="topo">
+  <h1>Painel de vagas</h1>
+  <a class="btn" href="{% url 'estacionamento:entrada' %}">Registrar entrada</a>
+</div>
+
+<div class="cards">
+  <div class="card"><b>{{ total }}</b>vagas ativas</div>
+  <div class="card"><b>{{ livres }}</b>livres</div>
+  <div class="card"><b>{{ ocupadas }}</b>ocupadas</div>
+</div>
+
+<div class="grid">
+  {% for vaga in vagas %}
+    <div class="vaga {% if vaga.mov_atual %}ocupada{% elif not vaga.ativa %}bloqueada{% endif %}">
+      <strong>Vaga {{ vaga.numero }}</strong> <small>({{ vaga.get_tipo_display }})</small><br>
+      {% if vaga.mov_atual %}
+        {{ vaga.mov_atual.veiculo.placa }}<br>
+        <small>desde {{ vaga.mov_atual.entrada|date:"d/m H:i" }}</small>
+        <form method="post" action="{% url 'estacionamento:saida' vaga.mov_atual.pk %}" style="margin-top:.4rem">
+          {% csrf_token %}
+          <button class="btn danger" type="submit">Registrar saída</button>
+        </form>
+      {% elif vaga.ativa %}
+        <small>Livre</small>
+      {% else %}
+        <small>Bloqueada</small>
+      {% endif %}
+    </div>
+  {% empty %}
+    <p>Nenhuma vaga cadastrada. <a href="{% url 'estacionamento:vaga_nova' %}">Cadastrar vaga</a>.</p>
+  {% endfor %}
+</div>
+{% endblock %}
